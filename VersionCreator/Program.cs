@@ -59,13 +59,13 @@ namespace VersionCreator
                             newFilePath = pathStripped + "\\" + date + "_" + fileName;
                         }
 
-                        // Check if file with new name exist
+                        // If file with current date doesnt exist, copy it
                         if (!File.Exists(@newFilePath))
                         {
                             File.Copy(passedObj, newFilePath);
                             Console.WriteLine("File Duplicated with todays date.");
                         }
-                        // If file already exists, increment version number
+                        // If file already exists, increment or add version number
                         else
                         {
                             if (Regex.IsMatch(newFilePath, versionPattern))
@@ -76,12 +76,13 @@ namespace VersionCreator
                             }
                             else
                             {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("ERROR:\n\nThe file already exists and the version number cannot be incremented.\nProbably the pattern of the version numbering does not fit.");
+                                var ext = Path.GetExtension(newFilePath);
+                                var tempFileName = Path.GetFileNameWithoutExtension(newFilePath);
+                                File.Copy(passedObj, newFilePath.Replace(tempFileName, tempFileName + "_001" + ext));
                             }
                         }
                     }
-                    //Folder
+                    //Folder TODO
                     /*else
                     {
                         string folderAbove = System.IO.Directory.GetParent(passedObj).ToString();
