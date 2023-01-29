@@ -1,8 +1,0 @@
-C:\Development\VersionCreator\VersionCreator\bin\Debug\VersionCreator.exe.config
-C:\Development\VersionCreator\VersionCreator\bin\Debug\VersionCreator.exe
-C:\Development\VersionCreator\VersionCreator\bin\Debug\VersionCreator.pdb
-C:\Development\VersionCreator\VersionCreator\obj\Debug\VersionCreator.csproj.AssemblyReference.cache
-C:\Development\VersionCreator\VersionCreator\obj\Debug\VersionCreator.csproj.SuggestedBindingRedirects.cache
-C:\Development\VersionCreator\VersionCreator\obj\Debug\VersionCreator.csproj.CoreCompileInputs.cache
-C:\Development\VersionCreator\VersionCreator\obj\Debug\VersionCreator.exe
-C:\Development\VersionCreator\VersionCreator\obj\Debug\VersionCreator.pdb
