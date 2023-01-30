@@ -13,7 +13,7 @@ namespace VersionCreator
                 {
                     // Get objects attributes
                     FileAttributes attr = File.GetAttributes(@passedObj);
-                    Console.WriteLine(passedObj);
+                    Console.WriteLine("Passed obj: " + passedObj);
 
                     //Regex patterns for the date formats YYYY-mm-dd, YYYYmmdd and YYmmdd
                     string[] patterns = { 
@@ -24,37 +24,34 @@ namespace VersionCreator
 
                     string versionPattern = @"_[0-9][0-9][0-9]\b";
 
-                    //File
+                    //Is file
                     if (!attr.HasFlag(FileAttributes.Directory))
                     {
                         string pathStripped = Path.GetDirectoryName(passedObj);
                         string fileName = Path.GetFileName(passedObj);
                         string newFilePath;
 
-                        // Dateformat YYYY-mm-dd
+                        // Date format YYYY-mm-dd
                         if (Regex.IsMatch(fileName, patterns[0]))
                         {
-                            Console.WriteLine("Pattern 1");
                             string date = DateTime.Now.ToString("yyyy-MM-dd");
                             newFilePath = pathStripped + "\\" + date + fileName.Remove(0, 10);
                         }
-                        // Dateformat YYYYmmdd
+                        // Date format YYYYmmdd
                         else if (Regex.IsMatch(fileName, patterns[1]))
                         {
-                            Console.WriteLine("Pattern 2");
                             string date = DateTime.Now.ToString("yyyyMMdd");
                             newFilePath = pathStripped + "\\" + date + fileName.Remove(0, 8);
                         }
-                        // Dateformat YYmmdd
+                        // Date format YYmmdd
                         else if (Regex.IsMatch(fileName, patterns[2]))
                         {
-                            Console.WriteLine("Pattern 3");
                             string date = DateTime.Now.ToString("yyMMdd");
                             newFilePath = pathStripped + "\\" + date + fileName.Remove(0, 6);
                         }
+                        // No date
                         else
                         {
-                            Console.WriteLine("Kein pattern?!");
                             string date = DateTime.Now.ToString("yyyy-MM-dd");
                             newFilePath = pathStripped + "\\" + date + "_" + fileName;
                         }
@@ -70,53 +67,79 @@ namespace VersionCreator
                         {
                             if (Regex.IsMatch(newFilePath, versionPattern))
                             {
+                                // Increment existing version number
                                 Match currentVersion = Regex.Match(newFilePath, versionPattern);
                                 string newFilePathWithVersionNumber = IncrementVersionNumber(newFilePath, currentVersion.Value);
                                 File.Copy(passedObj, newFilePathWithVersionNumber);
                             }
                             else
                             {
+                                // Add new version number of 002
                                 var ext = Path.GetExtension(newFilePath);
                                 var tempFileName = Path.GetFileNameWithoutExtension(newFilePath);
-                                File.Copy(passedObj, newFilePath.Replace(tempFileName, tempFileName + "_001" + ext));
+                                File.Copy(passedObj, newFilePath.Replace(tempFileName, tempFileName + "_002" + ext));
                             }
                         }
                     }
-                    //Folder TODO
-                    /*else
+                    //Is folder
+                    else
                     {
                         string folderAbove = System.IO.Directory.GetParent(passedObj).ToString();
                         string folderName = passedObj.Replace(folderAbove + "\\", "");
                         string newFolderPath;
 
+                        // Date format YYYY-mm-dd
                         if (Regex.IsMatch(folderName, patterns[0]))
                         {
+                            string date = DateTime.Now.ToString("yyyy-MM-dd");
                             newFolderPath = folderAbove + "\\" + date + folderName.Remove(0, 10);
                         }
+                        // Date format YYYYmmdd
+                        else if (Regex.IsMatch(folderName, patterns[1]))
+                        {
+                            string date = DateTime.Now.ToString("yyyyMMdd");
+                            newFolderPath = folderAbove + "\\" + date + folderName.Remove(0, 8);
+                        }
+                        // Date format YYmmdd
+                        else if (Regex.IsMatch(folderName, patterns[2]))
+                        {
+                            string date = DateTime.Now.ToString("yyMMdd");
+                            newFolderPath = folderAbove + "\\" + date + folderName.Remove(0, 6);
+                        }
+                        // No date
                         else
                         {
+                            string date = DateTime.Now.ToString("yyyy-MM-dd");
                             newFolderPath = folderAbove + "\\" + date + "_" + folderName;
                         }
-
+                        // If folder with current date doesnt exist, copy it
                         if (!Directory.Exists(@newFolderPath))
                         {
                             CopyFolder(passedObj, newFolderPath);
                             Console.WriteLine("Folder Duplicated with todays date.");
                         }
+                        // If folder already exists, increment or add version number
                         else
                         {
-                            // TODO add version counter at the end
-                            Console.WriteLine("Folder already exists!");
+                            if (Regex.IsMatch(newFolderPath, versionPattern))
+                            {
+                                Match currentVersion = Regex.Match(newFolderPath, versionPattern);
+                                string newFolderPathWithVersionNumber = IncrementVersionNumber(newFolderPath, currentVersion.Value);
+                                CopyFolder(passedObj, newFolderPathWithVersionNumber);
+                            }
+                            else 
+                            {
+                                CopyFolder(passedObj, newFolderPath + "_002");
+                            }
                         }
 
-                    }*/
+                    }
                 }
             }
             else
             {
                 Console.WriteLine("No arguments passed.");
             }
-            Console.ReadLine();
         }
         static private void CopyFolder(string sourceFolder, string destFolder)
         {
