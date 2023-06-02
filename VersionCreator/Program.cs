@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace VersionCreator
 {
@@ -52,7 +53,7 @@ namespace VersionCreator
                         // No date
                         else
                         {
-                            string date = DateTime.Now.ToString("yyyy-MM-dd");
+                            string date = DateTime.Now.ToString(UserSettings.Default.DefaultDate);
                             newFilePath = pathStripped + "\\" + date + "_" + fileName;
                         }
 
@@ -109,7 +110,7 @@ namespace VersionCreator
                         // No date
                         else
                         {
-                            string date = DateTime.Now.ToString("yyyy-MM-dd");
+                            string date = DateTime.Now.ToString(UserSettings.Default.DefaultDate);
                             newFolderPath = folderAbove + "\\" + date + "_" + folderName;
                         }
                         // If folder with current date doesnt exist, copy it
@@ -140,6 +141,7 @@ namespace VersionCreator
             {
                 Console.WriteLine("No arguments passed.");
             }
+            Console.Read();
         }
         static private void CopyFolder(string sourceFolder, string destFolder)
         {

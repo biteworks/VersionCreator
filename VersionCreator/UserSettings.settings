@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="VersionCreator" GeneratedClassName="Usersettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DefaultDate" Type="System.String" Scope="User">
+      <Value Profile="(Default)">yyyy-MM-dd</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
